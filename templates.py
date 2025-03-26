@@ -10,7 +10,7 @@ def gerar_txt_venda(venda_id, nome_cliente, itens_venda):
     """Gera conteúdo TXT formatado para a venda"""
     cabecalho = f"""
 ==================================
-COMPROVANTE DE VENDA - ID: {venda_id}
+COMPROVANTE DE ORÇAMENTO - ID: {venda_id}
 Cliente: {nome_cliente}
 Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}
 =================================="""
@@ -25,7 +25,7 @@ Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}
     
     rodape = f"""
 ==================================
-TOTAL DA VENDA: R${total_venda:.2f}
+TOTAL DO ORÇAMENTO: R${total_venda:.2f}
 =================================="""
     
     return cabecalho + "\n" + "\n".join(corpo) + rodape
@@ -39,7 +39,7 @@ def limpar_pagina():
 if "sessao_Atual" not in st.session_state:
     st.session_state["sessao_Atual"] = "Vendas"
 
-st.title('Vendas')
+st.title('Orçamentos')
 
 # Menu lateral
 menu = st.sidebar.selectbox(
@@ -151,7 +151,7 @@ if st.session_state["sessao_Atual"] == "Vendas":
                     incluir_venda_item(venda_item)
                 st.success('Item incluído ')
     st.divider()
-    st.header('Itens da venda')
+    st.header('Itens do Orcamento')
     itens_venda = consultar_venda_items(id_venda_atual)
     print(itens_venda)
     totalVenda = 0
@@ -177,8 +177,8 @@ if st.session_state["sessao_Atual"] == "Vendas":
                     st.write('item Excluído')
                     st.rerun()
     
-    st.header('Total da Venda')
-    st.header('Valor Total da Venda       R${:.2f}'.format(totalVenda))
+    st.header('Total do Orçamento')
+    st.header('Valor Total Orçamento       R${:.2f}'.format(totalVenda))
     st.divider()
 
     st.header('Recebimento')
