@@ -1,6 +1,7 @@
 streamlit
 sqlmodel
 pandas
+openpyxl
 sqlalchemy
 pydantic
 python-dotenv
