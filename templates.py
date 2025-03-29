@@ -230,6 +230,10 @@ if st.session_state["sessao_Atual"] == "Vendas":
 #pagina lista de Vendas
 if st.session_state['sessao_Atual'] == "Lista de Vendas":
     st.write('lista de vendas')
+    botao_nova_venda = st.button('Incluir nova venda')
+    if botao_nova_venda:
+        st.session_state["sessao_Atual"] = "Vendas"
+        st.rerun()
     
     st.divider()
     col1,col2,col3,col4,col5,col6,col7= st.columns([0.3,1,1,1,1,1,1])
