@@ -30,21 +30,66 @@ def alterar_produto(id, descricao_nova, preco_novo):
 
 def importa_produtos(codigo,codinterno,descricao, preco):
     with get_session() as session:
-        statement = select(Produtos).where(Produtos.descricao == descricao)
-        produto_para_alterar = session.exec(statement).first()
-        print(produto_para_alterar)
+        
+        produto_para_alterar = session.scalar(select(Produtos).where(Produtos.descricao == descricao))
+        #print(produto_para_alterar)
         if produto_para_alterar:
-            produto_para_alterar.codigo = codigo
-            produto_para_alterar.codInterno = codinterno
-            produto_para_alterar.descricao = descricao
-            produto_para_alterar.preco = preco
-            session.commit()
-            return 'produto alterado'
-        elif not produto_para_alterar:
+            if produto_para_alterar.preco != preco:
+                produto_para_alterar.codigo = codigo
+                produto_para_alterar.codInterno = codinterno
+                #produto_para_alterar.descricao = descricao
+                produto_para_alterar.preco = preco
+                session.commit()
+                return 'produto alterado'
+        else:
             produto_novo=Produtos(codigo=codigo,codInterno=codinterno,descricao=descricao, preco=preco)
             incluir_produto(produto_novo)
             return 'Produto incluido'
 
+'''def importa_produtos_2(df):
+    with get_session() as session:
+        
+        linhas_da_tabela = len(df)
+        tabela = df.iterrows()
+        progresso = st.progress(0)
+        texto_status = st.empty()
+
+        icodBarras =  "Código de Barras"
+        icodInterno = "Código Interno"
+        iDescricao = "Descrição"
+        iPreco = "Preço Venda Varejo"
+        
+        novos_produtos=[]
+        for index, row in tabela:
+            progresso.progress((index + 1) / linhas_da_tabela)
+            texto_status.text(f"Itens restantes: {linhas_da_tabela - index - 1}") 
+            #st.write(row[icodBarras],row[str(icodInterno)],row[iDescricao],row[iPreco] )
+            #importa_produtos(str(row[icodBarras]),str(row[icodInterno]),str(row[iDescricao]), float(row[iPreco]))
+        
+            statement = select(Produtos).where(Produtos.descricao == str(row[iDescricao]))
+            produto_para_alterar = session.exec(statement).first()
+            print(produto_para_alterar)
+            
+            
+            if produto_para_alterar:
+                novos_produtos.append(Produtos(
+                        codigo=str(row[icodBarras]),
+                        codInterno=str(row[icodInterno]),
+                        descricao=str(row[iDescricao]),
+                        preco=float(row[iPreco])
+                    ))
+
+                
+            elif not produto_para_alterar:
+                produto_novo=Produtos(codigo=codigo,codInterno=codinterno,descricao=descricao, preco=preco)
+                incluir_produto(produto_novo)
+                session.commit()
+        
+        if novos_produtos:        
+            session.bulk_save_objects(novos_produtos)    
+        session.commit()
+        st.write('Importação Concluida')
+'''
 def consultar_produtos(descricao: str):
     with get_session() as session:
         statement = select(Produtos).where(Produtos.descricao.like('%'+descricao+'%'))
