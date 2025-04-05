@@ -492,6 +492,7 @@ if st.session_state['sessao_Atual'] == "Atualizar Precos":
     if uploaded_file is not None and uploaded_file.name == 'Produtos.xlsx':
             # Lê o arquivo CSV usando pandas
             df = pd.read_excel(uploaded_file)
+            #importa_produtos_2(df)
             linhas_da_tabela = len(df)
             tabela = df.iterrows()
             progresso = st.progress(0)
@@ -508,6 +509,7 @@ if st.session_state['sessao_Atual'] == "Atualizar Precos":
                 #st.write(row[icodBarras],row[str(icodInterno)],row[iDescricao],row[iPreco] )
                 importa_produtos(str(row[icodBarras]),str(row[icodInterno]),str(row[iDescricao]), float(row[iPreco]))
             st.write('Importação Concluida')
+
     else:
         st.write('Procure o arquivo correto para importar')
 
