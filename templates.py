@@ -4,7 +4,7 @@ from views import *
 from datetime import datetime
 import base64
 
-
+st.set_page_config(layout="wide")
 #use no terminal antes
 #streamlit cache clear
 
@@ -100,15 +100,17 @@ if st.session_state["sessao_Atual"] == "Vendas":
     procura_field =''
     procura_field = st.text_input('Digite o código do produto')
     st.write('Incluir')
+    
     if procura_field:
         produto = consultar_produtos(procura_field)
         if (len(produto)) != 1:
             for i, item in enumerate(produto):  # Usar enumerate para obter um índice único
-                
-                col1, col2, col3, col4, col5, col6 = st.columns([1, 1, 1, 0.5, 0.5, 1])
+                st.divider()
+                col1, col2, col3, col4, col5, col6 = st.columns(6)
                 with col1:
                     codigo_field = st.text_input('Codigo', value=(item.codigo+' '+item.codInterno), key=f'codigo_{i}')
                 with col2:
+                    st.write('Descrição')
                     descricao_field = st.text(item.descricao)
                     #descricao_field = st.text_input('Descricao', value=item.descricao, key=f'descricao_{i}')
                 with col3:
@@ -131,10 +133,12 @@ if st.session_state["sessao_Atual"] == "Vendas":
                         incluir_venda_item(venda_item)
                     st.success('Item incluído')
         else:
-            col1,col2,col3,col4,col5,col6 = st.columns([1, 1, 1, 0.5, 0.5, 1])
+            st.divider()
+            col1,col2,col3,col4,col5,col6 = st.columns(6)
             with col1:
                 codigo_field = st.text_input('Codigo',value=(produto[0].codigo+' '+produto[0].codInterno))
             with col2:
+                st.write('Descrição')
                 descricao_field = st.text(produto[0].descricao)
                 #descricao_field = st.text_input('Descricao',value=produto[0].descricao)
             with col3:
@@ -162,16 +166,22 @@ if st.session_state["sessao_Atual"] == "Vendas":
     if itens_venda != 'Venda não existe':
         for linha in itens_venda:
             totalVenda+=float(linha.total)
-            col1,col2,col3,col4,col5,col6 = st.columns([2,3,1,1,1,1])
+            st.divider()
+            col1,col2,col3,col4,col5,col6 = st.columns(6)
             with col1:
+                st.write('Codigo')
                 st.write(linha.codigo)
             with col2:
+                st.write('Descrição')
                 st.write(linha.descricao)
             with col3:
+                st.write('Preço')
                 st.write(linha.preco)
             with col4:
+                st.write('QTD')
                 st.write(linha.quantidade)
             with col5:
+                st.write('Total')
                 st.write(linha.total)
                 #st.write(linha.id,linha.codigo,linha.descricao,linha.preco,linha.quantidade,'Valor',linha.total)
             with col6:
@@ -255,7 +265,7 @@ if st.session_state['sessao_Atual'] == "Lista de Vendas":
     vendas = listar_vendas()
     if vendas != 'Sem Vendas':
         for venda in reversed(vendas):
-            
+            st.divider()
             col1,col2,col3,col4,col5,col6,col7,col8= st.columns([0.3,2,1,1,1,1.5,1,1])
             with col1:
                 st.text(venda.id)
@@ -364,15 +374,17 @@ if st.session_state['sessao_Atual'] == "Atualização de Venda":
         procura_field =''
         procura_field = st.text_input('Digite o código do produto')
         st.write('Incluir')
+        
         if procura_field:
             produto = consultar_produtos(procura_field)
             if (len(produto)) != 1:
                 for i, item in enumerate(produto):  # Usar enumerate para obter um índice único
-                    
-                    col1, col2, col3, col4, col5, col6 = st.columns([1, 1, 1, 0.5, 0.5, 1])
+                    st.divider()
+                    col1, col2, col3, col4, col5, col6 = st.columns(6)
                     with col1:
                         codigo_field = st.text_input('Codigo', value=(item.codigo+' '+item.codInterno), key=f'codigo_{i}')
                     with col2:
+                        st.write('Descrição')
                         descricao_field = st.text(item.descricao)
                         #descricao_field = st.text_input('Descricao', value=item.descricao, key=f'descricao_{i}')
                     with col3:
@@ -395,10 +407,12 @@ if st.session_state['sessao_Atual'] == "Atualização de Venda":
                             incluir_venda_item(venda_item)
                         st.success('Item incluído')
             else:
-                col1,col2,col3,col4,col5,col6 = st.columns([1, 1, 1, 0.5, 0.5, 1])
+                st.divider()
+                col1,col2,col3,col4,col5,col6 = st.columns(6)
                 with col1:
                     codigo_field = st.text_input('Codigo',value=(produto[0].codigo+' '+produto[0].codInterno))
                 with col2:
+                    st.write('Descrição')
                     descricao_field = st.text(produto[0].descricao)
                     #descricao_field = st.text_input('Descricao',value=produto[0].descricao)
                 with col3:
@@ -426,16 +440,22 @@ if st.session_state['sessao_Atual'] == "Atualização de Venda":
         if itens_venda != 'Venda não existe':
             for linha in itens_venda:
                 totalVenda+=float(linha.total)
+                st.divider()
                 col1,col2,col3,col4,col5,col6 = st.columns([2,3,1,1,1,1])
                 with col1:
+                    st.write('Codigo')
                     st.write(linha.codigo)
                 with col2:
+                    st.write('Descrição')
                     st.write(linha.descricao)
                 with col3:
+                    st.write('Preço')
                     st.write(linha.preco)
                 with col4:
+                    st.write('QTD')
                     st.write(linha.quantidade)
                 with col5:
+                    st.write('Total')
                     st.write(linha.total)
                     #st.write(linha.id,linha.codigo,linha.descricao,linha.preco,linha.quantidade,'Valor',linha.total)
                 with col6:

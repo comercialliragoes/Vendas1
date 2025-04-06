@@ -1,7 +1,10 @@
 # database.py
 from sqlmodel import SQLModel, Field, create_engine
 from datetime import date, time, datetime
-import streamlit as st
+#import streamlit as st
+# Configuração do layout (wide mode)
+#st.set_page_config(layout="wide")
+
 # Definição das tabelas
 class Produtos(SQLModel, table=True, extend_existing=True):
     id: int = Field(primary_key=True)
@@ -29,11 +32,11 @@ class Vendas_item(SQLModel, table=True, extend_existing=True):
     hora: time = Field(default_factory=lambda: datetime.now().time(), nullable=False)
 
 # Função para criar o engine e as tabelas para poder usar com o Streamlit
-@st.cache_resource
+#@st.cache_resource
 def setup_database():
     sqlite_file_name = "produtosBeta.db"
     connection_string = f"sqlite:///{sqlite_file_name}"
-    engine = create_engine(connection_string, echo=True)
+    engine = create_engine(connection_string, echo=False)
     # descomente para criar as tabelas executando python database.py
     #SQLModel.metadata.create_all(engine)
     return engine

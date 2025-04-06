@@ -2,10 +2,10 @@
 from models import Produtos, Vendas_item, Vendas, engine
 from sqlmodel import Session, select
 from datetime import date, timedelta
-import streamlit as st
+#import streamlit as st
 
 # Função para obter uma sessão do banco de dados
-@st.cache_resource
+#@st.cache_resource
 def get_session():
     return Session(engine)
 
